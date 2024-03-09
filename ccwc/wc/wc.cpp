@@ -51,6 +51,14 @@ void wc :: evaluate( char option, char * fileName )
         printValue( value, fileName );
       }
       break;
+    case 'm' :
+      {
+        size_t value = 0;
+        evaluateNoOfChars( fileName, value );
+        printValue( value, fileName );
+      }
+      break;
+
 
     default : printUsage();
   }
@@ -130,6 +138,27 @@ void wc :: evaluateNoOfWords( char * fileName, size_t & value )
   if( isWordFound )
   {
     ++value;
+  }
+}
+
+void wc :: evaluateNoOfChars( char * fileName, size_t & value )
+{
+  FILE* file = fopen( fileName , "r" );
+  if( file == nullptr )
+  {
+    std::cerr 
+      << "Error opening file" << std::endl;
+
+    exit( EXIT_FAILURE );
+  }
+
+  setlocale(LC_CTYPE, "C.utf8");
+
+  wchar_t ch = fgetwc(file);
+  while( ch  != WEOF )
+  {
+    ++value;
+    ch = fgetwc(file);
   }
 }
 

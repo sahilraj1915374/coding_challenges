@@ -24,5 +24,6 @@ class wc
     void evaluateNoOfBytes( char * fileName , size_t & value );
     void evaluateNoOfLines( char * fileName , size_t & value );
     void evaluateNoOfWords( char * fileName , size_t & value );
+    void evaluateNoOfChars( char * fileName , size_t & value );
     void printValue( size_t value, char * fileName );
 };
