@@ -37,6 +37,13 @@ void wc :: evaluate( char option, char * fileName )
         printValue( value, fileName );
       }
       break;
+    case 'l' :
+      {
+        size_t value = 0;
+        evaluateNoOfLines( fileName, value );
+        printValue( value, fileName );
+      }
+      break;
 
     default : printUsage();
   }
@@ -44,7 +51,7 @@ void wc :: evaluate( char option, char * fileName )
 
 void wc :: evaluateNoOfBytes( char * fileName, size_t & value )
 {
-  std::ifstream file(fileName);
+  std::ifstream file( fileName );
 
   if( !file.is_open() )
   {
@@ -58,6 +65,28 @@ void wc :: evaluateNoOfBytes( char * fileName, size_t & value )
   while( file.get(ch) )
   {
     ++value;
+  }
+}
+
+void wc :: evaluateNoOfLines( char * fileName, size_t & value )
+{
+  std::ifstream file( fileName );
+
+  if( !file.is_open() )
+  {
+    std::cerr 
+      << "Error opening file" << std::endl;
+
+    exit( EXIT_FAILURE );
+  }
+
+  char ch;
+  while( file.get(ch) )
+  {
+    if( ch == '\n' )
+    {
+      ++value;
+    }
   }
 }
 

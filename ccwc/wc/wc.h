@@ -22,5 +22,6 @@ class wc
     void validate( int leftOperand, int rightOperand );
     void evaluate( char option, char * fileName );
     void evaluateNoOfBytes( char * fileName , size_t & value );
+    void evaluateNoOfLines( char * fileName , size_t & value );
     void printValue( size_t value, char * fileName );
 };
