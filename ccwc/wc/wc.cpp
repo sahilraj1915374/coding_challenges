@@ -44,6 +44,13 @@ void wc :: evaluate( char option, char * fileName )
         printValue( value, fileName );
       }
       break;
+    case 'w' :
+      {
+        size_t value = 0;
+        evaluateNoOfWords( fileName, value );
+        printValue( value, fileName );
+      }
+      break;
 
     default : printUsage();
   }
@@ -87,6 +94,42 @@ void wc :: evaluateNoOfLines( char * fileName, size_t & value )
     {
       ++value;
     }
+  }
+}
+
+void wc :: evaluateNoOfWords( char * fileName, size_t & value )
+{
+  std::ifstream file( fileName );
+
+  if( !file.is_open() )
+  {
+    std::cerr 
+      << "Error opening file" << std::endl;
+
+    exit( EXIT_FAILURE );
+  }
+
+  char ch;
+  bool isWordFound = false;
+  while( file.get(ch) )
+  {
+    if( isspace(ch) )
+    {
+      if( isWordFound )
+      {
+        ++value;
+        isWordFound = false;
+      }
+    }
+    else
+    {
+      isWordFound = true;
+    }
+  }
+
+  if( isWordFound )
+  {
+    ++value;
   }
 }
 
