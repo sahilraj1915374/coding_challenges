@@ -2,18 +2,29 @@
 
 void wc :: validateAndEvaluate( int argc, char * argv[] )
 {
-  validate( argc, ACCEPTED_ARGUMENTS );
-  validate( strlen(argv[1]), ACCEPTED_OPTION_LENGTH );
-  evaluate( argv[1][1], argv[2] );
+  if( argc == ARGS_WITH_OPTION )
+  {
+    checkOptionsAndEvaluate( argv );
+  }
+  else if( argc == ARGS_WITHOUT_OPTION )
+  {
+    evaluate( argv );
+  }
+  else
+  {
+    printUsage();
+  }
 }
 
-void wc :: validate( int leftOperand, int rightOperand )
+void wc :: checkOptionsAndEvaluate( char * argv[] )
 {
-  if( leftOperand != rightOperand )
+  if( strlen(argv[1]) != ACCEPTED_OPTION_LENGTH )
   {
     printUsage();
     exit( EXIT_FAILURE );
   }
+  
+  evaluate( argv[1][1]/*option*/, argv[2]/*filename*/ );
 }
 
 void wc :: printUsage()
@@ -23,7 +34,19 @@ void wc :: printUsage()
 
   std::cerr 
     << "\n\t[options]" << "\n"
-    << "\tc : number of bytes" << std::endl;
+    << "\tc : number of bytes" << "\n" 
+    << "\tl : number of lines" << "\n" 
+    << "\tw : number of words" << "\n" 
+    << "\tm : number of characters" << std::endl;
+}
+
+void wc :: evaluate( char * argv[] )
+{
+  size_t lines = 0, words = 0, bytes = 0; 
+  evaluateNoOfLines( argv[1], lines );
+  evaluateNoOfWords( argv[1], words );
+  evaluateNoOfBytes( argv[1], bytes );
+  printValue( lines, words, bytes, argv[1] );
 }
 
 void wc :: evaluate( char option, char * fileName )
@@ -166,5 +189,14 @@ void wc :: printValue( size_t value, char * fileName )
 {
   std::cout 
     << value << " "
+    << fileName << std::endl;
+}
+
+void wc :: printValue( size_t bytes, size_t lines, size_t words, char * fileName )
+{
+  std::cout 
+    << bytes << " "
+    << lines << " "
+    << words << " "
     << fileName << std::endl;
 }
