@@ -4,12 +4,8 @@ project( coding_challenge_1 )
 
 set( CMAKE_CXX_STANDARD 17 )
 
-add_subdirectory( wc )
-
 add_executable( ccwc
-  main.cpp 
+  "main.cpp"
+  "src/ccwc.cpp"
 )
 
-target_link_libraries( ccwc
-  wc 
-)
